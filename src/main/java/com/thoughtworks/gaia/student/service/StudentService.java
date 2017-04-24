@@ -39,4 +39,10 @@ public class StudentService implements Loggable{
         StudentModel studentModel = studentMapper.map(student,StudentModel.class);
         studentDao.save(studentModel);
     }
+
+    public void deleteStudent(Long id)
+    {
+        StudentModel studentModel = studentDao.idEquals(id).querySingle();
+        studentDao.remove(studentModel);
+    }
 }

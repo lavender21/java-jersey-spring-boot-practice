@@ -41,7 +41,7 @@ public class StudentEndPoint {
         return Response.ok().entity(student).build();
     }
 
-    @ApiOperation(value = "add student", response = String.class)
+    @ApiOperation(value = "add student", response = boolean.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Add student successfully"),
             @ApiResponse(code = 400, message = "add failed")
@@ -49,6 +49,18 @@ public class StudentEndPoint {
     @POST
     public Response addStudent(Student student){
         studentService.addStudent(student);
+        return Response.ok().entity(true).build();
+    }
+
+    @Path("/{id}")
+    @ApiOperation(value = "delete student", response = boolean.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "delete student successfully"),
+            @ApiResponse(code = 400, message = "delete failed")
+    })
+    @DELETE
+    public Response deleteStudent(@PathParam("id") Long id){
+        studentService.deleteStudent(id);
         return Response.ok().entity(true).build();
     }
 }
