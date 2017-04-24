@@ -33,4 +33,10 @@ public class StudentService implements Loggable{
         }
         return studentMapper.map(studentModel,Student.class);
     }
+
+    public void addStudent(Student student)
+    {
+        StudentModel studentModel = studentMapper.map(student,StudentModel.class);
+        studentDao.save(studentModel);
+    }
 }

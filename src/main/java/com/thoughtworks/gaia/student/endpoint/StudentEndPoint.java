@@ -7,7 +7,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -37,4 +41,14 @@ public class StudentEndPoint {
         return Response.ok().entity(student).build();
     }
 
+    @ApiOperation(value = "add student", response = String.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Add student successfully"),
+            @ApiResponse(code = 400, message = "add failed")
+    })
+    @POST
+    public Response addStudent(Student student){
+        studentService.addStudent(student);
+        return Response.ok().entity(true).build();
+    }
 }
