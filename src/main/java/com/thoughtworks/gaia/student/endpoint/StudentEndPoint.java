@@ -63,4 +63,15 @@ public class StudentEndPoint {
         studentService.deleteStudent(id);
         return Response.ok().entity(true).build();
     }
+
+    @ApiOperation(value = "add student", response = Student.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Add student successfully"),
+            @ApiResponse(code = 400, message = "add failed")
+    })
+    @PUT
+    public Response updateStudent(Student student){
+        Student updateStudent = studentService.updateStudent(student);
+        return Response.ok().entity(updateStudent).build();
+    }
 }
