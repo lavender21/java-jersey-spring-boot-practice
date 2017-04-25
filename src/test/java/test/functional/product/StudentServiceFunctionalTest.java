@@ -60,18 +60,18 @@ public class StudentServiceFunctionalTest {
     }
 
     @Test
-    public void should_add_student_with_student() throws Exception{
+    public void should_add_student_with_student() throws Exception {
         Student student = createStudentEntity();
 
         student = studentService.addStudent(student);
 
         Student newStudent = studentMapper.map(
-                studentDao.idEquals(student.getId()).querySingle(),Student.class);
+                studentDao.idEquals(student.getId()).querySingle(), Student.class);
         assertThat(student).isEqualToComparingFieldByField(newStudent);
     }
 
     @Test
-    public void should_update_student_with_newstudnet() throws Exception{
+    public void should_update_student_with_newstudnet() throws Exception {
         StudentModel studentModel = createStudentModel();
         studentDao.save(studentModel);
         Student student = createStudentEntity();
@@ -100,12 +100,12 @@ public class StudentServiceFunctionalTest {
         return student;
     }
 
-    private Date formateDate(String str){
+    private Date formateDate(String str) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-        try{
+        try {
             date = format.parse(str);
-        }catch (ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;
