@@ -1,5 +1,6 @@
 package com.thoughtworks.gaia.student.endpoint;
 
+import com.thoughtworks.gaia.student.entity.Artical;
 import com.thoughtworks.gaia.student.entity.Student;
 import com.thoughtworks.gaia.student.service.StudentService;
 import io.swagger.annotations.Api;
@@ -80,4 +81,19 @@ public class StudentEndPoint {
         Student updateStudent = studentService.updateStudent(student);
         return Response.ok().entity(updateStudent).build();
     }
+
+    @Path("/{id}/artical")
+    @ApiOperation(value = "update student", response = Artical.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "add artical successfully"),
+            @ApiResponse(code = 404, message = "not found")
+    })
+    @POST
+    public Response addArtical(@PathParam("id") Long id, Artical artical) throws URISyntaxException {
+        Artical result = studentService.addArticalToStudent(id, artical);
+        return Response.created(new URI(uriInfo.getPath() + '/' + result.getId()))
+                .entity(result)
+                .build();
+    }
+
 }
