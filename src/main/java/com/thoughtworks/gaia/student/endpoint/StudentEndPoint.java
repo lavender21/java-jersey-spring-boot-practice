@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -26,6 +28,9 @@ import java.net.URISyntaxException;
 public class StudentEndPoint {
     @Autowired
     private StudentService studentService;
+
+    @Context
+    private UriInfo uriInfo;
 
     @Path("/{id}")
     @ApiOperation(value = "Get student by id", response = Student.class)
@@ -48,7 +53,7 @@ public class StudentEndPoint {
     @POST
     public Response addStudent(Student student) throws URISyntaxException {
         Student newstudent = studentService.addStudent(student);
-        return Response.created(new URI("/gaia/student/" + newstudent.getId())).entity(newstudent).build();
+        return Response.created(new URI(uriInfo.getPath() + newstudent.getId())).entity(newstudent).build();
     }
 
     @Path("/{id}")
