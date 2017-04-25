@@ -1,6 +1,7 @@
 package com.thoughtworks.gaia.student.service;
 
 import com.thoughtworks.gaia.common.Loggable;
+import com.thoughtworks.gaia.common.exception.ErrorCode;
 import com.thoughtworks.gaia.common.exception.NotFoundException;
 import com.thoughtworks.gaia.student.dao.StudentDao;
 import com.thoughtworks.gaia.student.StudentMapper;
@@ -28,7 +29,7 @@ public class StudentService implements Loggable {
         StudentModel studentModel = studentDao.idEquals(id).querySingle();
         if (studentModel == null) {
             error("student is not find with" + id);
-            throw new NotFoundException();
+            throw new NotFoundException(ErrorCode.RESOURCE_NOT_FOUND);
         }
         return studentMapper.map(studentModel, Student.class);
     }
