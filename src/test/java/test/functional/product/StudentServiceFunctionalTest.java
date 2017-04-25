@@ -3,9 +3,13 @@ package test.functional.product;
 import com.thoughtworks.gaia.GaiaApplication;
 import com.thoughtworks.gaia.common.constant.EnvProfile;
 import com.thoughtworks.gaia.common.exception.NotFoundException;
+import com.thoughtworks.gaia.student.ArticalMapper;
 import com.thoughtworks.gaia.student.StudentMapper;
+import com.thoughtworks.gaia.student.dao.ArticalDao;
 import com.thoughtworks.gaia.student.dao.StudentDao;
+import com.thoughtworks.gaia.student.entity.Artical;
 import com.thoughtworks.gaia.student.entity.Student;
+import com.thoughtworks.gaia.student.model.ArticalModel;
 import com.thoughtworks.gaia.student.model.StudentModel;
 import com.thoughtworks.gaia.student.service.StudentService;
 import org.junit.Test;
@@ -41,7 +45,13 @@ public class StudentServiceFunctionalTest {
     StudentDao studentDao;
 
     @Autowired
+    ArticalDao articalDao;
+
+    @Autowired
     StudentMapper studentMapper;
+
+    @Autowired
+    ArticalMapper articalMapper;
 
     @Test
     public void should_get_student_with_id() throws Exception {
@@ -82,6 +92,19 @@ public class StudentServiceFunctionalTest {
         assertThat(actual).isEqualToComparingFieldByField(student);
     }
 
+    @Test
+    public void should_add_artical_with_student_id() throws Exception {
+        StudentModel studentModel = createStudentModel();
+        studentDao.save(studentModel);
+        Long studentId = studentModel.getId();
+        Artical artical = createArticalEntity();
+
+        Artical actual = studentService.addArticalToStudent(studentId, artical);
+        artical = articalMapper.map(articalDao.idEquals(actual.getId()).querySingle(), Artical.class);
+
+        assertThat(actual).isEqualToComparingFieldByField(artical);
+    }
+
     private StudentModel createStudentModel() {
         StudentModel studentModel = new StudentModel();
         studentModel.setName("nrt");
@@ -98,6 +121,14 @@ public class StudentServiceFunctionalTest {
         student.setKlass("313");
         student.setBirth(formateDate("1995-10-21"));
         return student;
+    }
+
+    private Artical createArticalEntity() {
+        Artical artical = new Artical();
+        artical.setContent("safasfdsfsdaffdsafdf");
+        artical.setTitle("aaa");
+        artical.setPublish_time(formateDate("2017-04-24"));
+        return artical;
     }
 
     private Date formateDate(String str) {

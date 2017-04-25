@@ -3,9 +3,13 @@ package com.thoughtworks.gaia.student.service;
 import com.thoughtworks.gaia.common.Loggable;
 import com.thoughtworks.gaia.common.exception.ErrorCode;
 import com.thoughtworks.gaia.common.exception.NotFoundException;
+import com.thoughtworks.gaia.student.ArticalMapper;
+import com.thoughtworks.gaia.student.dao.ArticalDao;
 import com.thoughtworks.gaia.student.dao.StudentDao;
 import com.thoughtworks.gaia.student.StudentMapper;
+import com.thoughtworks.gaia.student.entity.Artical;
 import com.thoughtworks.gaia.student.entity.Student;
+import com.thoughtworks.gaia.student.model.ArticalModel;
 import com.thoughtworks.gaia.student.model.StudentModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +27,13 @@ public class StudentService implements Loggable {
     private StudentMapper studentMapper;
 
     @Autowired
+    private ArticalMapper articalMapper;
+
+    @Autowired
     private StudentDao studentDao;
+
+    @Autowired
+    private ArticalDao articalDao;
 
     public Student getStudent(Long id) {
         StudentModel studentModel = studentDao.idEquals(id).querySingle();
@@ -53,5 +63,12 @@ public class StudentService implements Loggable {
         StudentModel studentModel = studentMapper.map(student, StudentModel.class);
         studentModel = studentDao.update(studentModel);
         return studentMapper.map(studentModel, Student.class);
+    }
+
+    public Artical addArticalToStudent(Long studentId, Artical artical) {
+        artical.setStudent_id(studentId);
+        ArticalModel articalModel = articalMapper.map(artical,ArticalModel.class);
+        articalDao.save(articalModel);
+        return articalMapper.map(articalModel,Artical.class);
     }
 }
