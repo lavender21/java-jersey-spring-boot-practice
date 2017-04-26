@@ -26,7 +26,9 @@ import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -179,6 +181,27 @@ public class StudentServiceFunctionalTest {
     @Test(expected = Exception.class)
     public void should_exception_not_found_when_artical_not_exist(){
         studentService.deleteArtical(-1L);
+    }
+
+    @Test
+    public void should_get_all_artical_list_with_student_id(){
+        StudentModel studentModel = createStudentModel();
+        studentDao.save(studentModel);
+        ArticalModel articalModel = createArticalModel();
+        articalModel.setStudent_id(studentModel.getId());
+        articalDao.save(articalModel);
+        ArticalModel articalModel2 = createArticalModel();
+        articalModel2.setStudent_id(studentModel.getId());
+        articalDao.save(articalModel2);
+        List<Artical> expect = new ArrayList<Artical>();
+        expect.add(articalMapper.map(articalModel,Artical.class));
+        expect.add(articalMapper.map(articalModel2,Artical.class));
+
+        List<Artical> actual= studentService.getAllArtical(studentModel.getId());
+
+        assertThat(actual.size()).isEqualTo(expect.size());
+        assertThat(actual.get(0)).isEqualToComparingFieldByField(expect.get(0));
+        assertThat(actual.get(1)).isEqualToComparingFieldByField(expect.get(1));
     }
 
     private StudentModel createStudentModel() {

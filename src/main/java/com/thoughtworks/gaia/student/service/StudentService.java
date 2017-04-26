@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by lavender on 17-4-24.
@@ -113,4 +114,16 @@ public class StudentService implements Loggable {
         }
         articalDao.remove(articalModel);
     }
+
+    public List<Artical> getAllArtical(Long id) {
+        List<ArticalModel> list = articalDao.where(new EqualQuery("student_id",id)).queryList();
+        if (list.size() < 0){
+            error("not found artical");
+            throw new NotFoundException();
+        }
+        return articalMapper.mapList(list,Artical.class);
+    }
 }
+
+
+

@@ -1,5 +1,6 @@
 package com.thoughtworks.gaia.student.endpoint;
 
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.thoughtworks.gaia.student.entity.Artical;
 import com.thoughtworks.gaia.student.entity.Student;
 import com.thoughtworks.gaia.student.service.StudentService;
@@ -11,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Created by lavender on 17-4-24.
@@ -131,6 +130,14 @@ public class StudentEndPoint {
     public Response addArtical(@PathParam("aid") Long aid) throws URISyntaxException {
         studentService.deleteArtical(aid);
         return Response.noContent().build();
+    }
+
+    @Path("/{id}/artical")
+    @GET
+    public Response getAllArtical(@PathParam("id") Long id){
+        List<Artical> list = studentService.getAllArtical(id);
+        GenericEntity<List<Artical>> entity = new GenericEntity<List<Artical>>(list){};
+        return Response.ok().entity(entity).build();
     }
 }
 
