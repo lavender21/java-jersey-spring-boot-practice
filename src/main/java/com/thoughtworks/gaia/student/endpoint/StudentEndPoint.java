@@ -107,5 +107,18 @@ public class StudentEndPoint {
         Artical artical = studentService.getArtical(id,aid);
         return Response.ok().entity(artical).build();
     }
+
+    @Path("/{id}/artical/{aid}")
+    @ApiOperation(value = "update artical from student", response = Artical.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "update artical successfully"),
+            @ApiResponse(code = 404, message = "not found")
+    })
+    @PUT
+    public Response addArtical(@PathParam("id") Long id,@PathParam("aid") Long aid, Artical artical) throws URISyntaxException {
+        artical.setId(aid);
+        Artical result = studentService.updateArtical(id, artical);
+        return Response.ok().entity(result).build();
+    }
 }
 

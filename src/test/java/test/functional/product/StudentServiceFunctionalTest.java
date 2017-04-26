@@ -113,28 +113,52 @@ public class StudentServiceFunctionalTest {
         studentDao.save(studentModel);
         articalModel.setStudent_id(studentModel.getId());
         articalDao.save(articalModel);
-        Artical expect = articalMapper.map(articalModel,Artical.class);
+        Artical expect = articalMapper.map(articalModel, Artical.class);
 
-        Artical actual = studentService.getArtical(studentModel.getId(),articalModel.getId());
+        Artical actual = studentService.getArtical(studentModel.getId(), articalModel.getId());
 
         assertThat(actual).isEqualToComparingFieldByField(expect);
     }
 
     @Test(expected = Exception.class)
-    public void should_throw_exception_when_artical_not_exist_in_student(){
+    public void should_throw_exception_when_artical_not_exist_in_student() {
         StudentModel studentModel = createStudentModel();
         ArticalModel articalModel = createArticalModel();
         studentDao.save(studentModel);
         articalDao.save(articalModel);
 
-        studentService.getArtical(studentModel.getId(),articalModel.getStudent_id());
+        studentService.getArtical(studentModel.getId(), articalModel.getStudent_id());
     }
 
     @Test(expected = Exception.class)
-    public void should_throw_exception_when_student_not_exist(){
-        studentService.getArtical(-1L,0L);
+    public void should_throw_exception_when_student_not_exist() {
+        studentService.getArtical(-1L, 0L);
     }
 
+    @Test
+    public void should_update_artical_with_student_id_and_artical(){
+        StudentModel studentModel = createStudentModel();
+        ArticalModel articalModel = createArticalModel();
+        studentDao.save(studentModel);
+        articalModel.setStudent_id(studentModel.getId());
+        articalDao.save(articalModel);
+
+        articalModel.setContent("modify");
+        Artical actual = studentService.updateArtical(studentModel.getId(),articalMapper.map(articalModel,Artical.class));
+
+        assertThat(actual).isEqualToComparingFieldByField(articalMapper.map(articalModel,Artical.class));
+    }
+
+
+    @Test(expected = Exception.class)
+    public void should_exception_when_artical_is_not_exist() {
+        ArticalModel articalModel = createArticalModel();
+        articalModel.setId(1L);
+        StudentModel studentModel = createStudentModel();
+        studentDao.save(studentModel);
+
+        studentService.updateArtical(studentModel.getId(),articalMapper.map(articalModel,Artical.class));
+    }
     private StudentModel createStudentModel() {
         StudentModel studentModel = new StudentModel();
         studentModel.setName("nrt");
