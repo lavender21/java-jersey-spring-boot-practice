@@ -4,13 +4,14 @@ import com.thoughtworks.gaia.common.jpa.IdBaseModel;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lavender on 17-4-24.
  */
 @Entity
 @Table(name = "STUDENT")
-public class StudentModel extends IdBaseModel{
+public class StudentModel extends IdBaseModel {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
@@ -20,22 +21,50 @@ public class StudentModel extends IdBaseModel{
     @Column(name = "age", length = 11)
     private int age;
 
-    @Column(name = "birth" )
+    @Column(name = "birth")
     private Date birth;
 
-    public String getName() {return name;}
+    @OneToMany
+    @JoinColumn(name = "student_id")
+    private List<ArticalModel> list;
 
-    public void setName(String name) {this.name = name;}
+    public String getName() {
+        return name;
+    }
 
-    public String getKlass() {return klass;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setKlass(String klass) {this.klass = klass;}
+    public String getKlass() {
+        return klass;
+    }
 
-    public int getAge() {return age;}
+    public void setKlass(String klass) {
+        this.klass = klass;
+    }
 
-    public void setAge(int age) {this.age = age;}
+    public int getAge() {
+        return age;
+    }
 
-    public Date getBirth() {return birth;}
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-    public void setBirth(Date birth) {this.birth = birth;}
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public List<ArticalModel> getList() {
+        return list;
+    }
+
+    public void setList(List<ArticalModel> list) {
+        this.list = list;
+    }
 }

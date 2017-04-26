@@ -2,10 +2,7 @@ package com.thoughtworks.gaia.student.model;
 
 import com.thoughtworks.gaia.common.jpa.IdBaseModel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,14 +14,14 @@ public class ArticalModel extends IdBaseModel {
     @Column(name = "title", length = 100)
     private String title;
 
-    @Column(name="content",columnDefinition = "text")
+    @Column(name = "content", columnDefinition = "text")
     @Lob
     private String content;
 
     @Column(name = "publish_time")
     private Date publish_time;
 
-    @Column(name = "student_id")
+    @Column(name = "student_id", nullable = false)
     private Long student_id;
 
     public void setTitle(String title) {

@@ -1,6 +1,7 @@
 package com.thoughtworks.gaia.student.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Student {
     private Long id;
@@ -13,24 +14,56 @@ public class Student {
 
     private Date birth;
 
-    public Long getId() {return id;}
+    private List<Artical> list;
 
-    public void setId(Long id) {this.id = id;}
+    public Long getId() {
+        return id;
+    }
 
-    public String getName() {return name;}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setName(String name) {this.name = name;}
+    public String getName() {
+        return name;
+    }
 
-    public String getKlass() {return klass;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setKlass(String klass) {this.klass = klass;}
+    public String getKlass() {
+        return klass;
+    }
 
-    public int getAge() {return age;}
+    public void setKlass(String klass) {
+        this.klass = klass;
+    }
 
-    public void setAge(int age) {this.age = age;}
+    public int getAge() {
+        return age;
+    }
 
-    public Date getBirth() {return birth;}
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-    public void setBirth(Date birth) {this.birth = birth;}
+    public Date getBirth() {
+        return birth;
+    }
 
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public List<Artical> getList() {
+        return list;
+    }
+
+    public void setList(List<Artical> list) {
+        this.list = list;
+    }
 }
+
+
+
