@@ -21,6 +21,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -105,6 +106,35 @@ public class StudentServiceFunctionalTest {
         assertThat(actual).isEqualToComparingFieldByField(artical);
     }
 
+    @Test
+    public void should_get_artical_with_student_id_and_artical_id() throws Exception {
+        StudentModel studentModel = createStudentModel();
+        ArticalModel articalModel = createArticalModel();
+        studentDao.save(studentModel);
+        articalModel.setStudent_id(studentModel.getId());
+        articalDao.save(articalModel);
+        Artical expect = articalMapper.map(articalModel,Artical.class);
+
+        Artical actual = studentService.getArtical(studentModel.getId(),articalModel.getId());
+
+        assertThat(actual).isEqualToComparingFieldByField(expect);
+    }
+
+    @Test(expected = Exception.class)
+    public void should_throw_exception_when_artical_not_exist_in_student(){
+        StudentModel studentModel = createStudentModel();
+        ArticalModel articalModel = createArticalModel();
+        studentDao.save(studentModel);
+        articalDao.save(articalModel);
+
+        studentService.getArtical(studentModel.getId(),articalModel.getStudent_id());
+    }
+
+    @Test(expected = Exception.class)
+    public void should_throw_exception_when_student_not_exist(){
+        studentService.getArtical(-1L,0L);
+    }
+
     private StudentModel createStudentModel() {
         StudentModel studentModel = new StudentModel();
         studentModel.setName("nrt");
@@ -129,6 +159,13 @@ public class StudentServiceFunctionalTest {
         artical.setTitle("aaa");
         artical.setPublish_time(formateDate("2017-04-24"));
         return artical;
+    }
+
+    private ArticalModel createArticalModel() {
+        ArticalModel articalModel = new ArticalModel();
+        articalModel.setTitle("hhhh");
+        articalModel.setContent("hhahahahah");
+        return articalModel;
     }
 
     private Date formateDate(String str) {

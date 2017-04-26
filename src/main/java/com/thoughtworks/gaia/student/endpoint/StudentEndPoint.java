@@ -83,7 +83,7 @@ public class StudentEndPoint {
     }
 
     @Path("/{id}/artical")
-    @ApiOperation(value = "update student", response = Artical.class)
+    @ApiOperation(value = "add artical to student", response = Artical.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "add artical successfully"),
             @ApiResponse(code = 404, message = "not found")
@@ -96,4 +96,16 @@ public class StudentEndPoint {
                 .build();
     }
 
+    @Path("/{id}/artical/{aid}")
+    @ApiOperation(value = "get artical from student", response = Artical.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "get artical sucessfully"),
+            @ApiResponse(code = 404, message = "not found")
+    })
+    @GET
+    public Response getArtical(@PathParam("id") Long id,@PathParam("aid") Long aid){
+        Artical artical = studentService.getArtical(id,aid);
+        return Response.ok().entity(artical).build();
+    }
 }
+
