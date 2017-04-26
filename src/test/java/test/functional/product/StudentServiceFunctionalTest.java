@@ -12,6 +12,7 @@ import com.thoughtworks.gaia.student.entity.Student;
 import com.thoughtworks.gaia.student.model.ArticalModel;
 import com.thoughtworks.gaia.student.model.StudentModel;
 import com.thoughtworks.gaia.student.service.StudentService;
+import jdk.nashorn.internal.runtime.ECMAException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -159,6 +160,27 @@ public class StudentServiceFunctionalTest {
 
         studentService.updateArtical(studentModel.getId(),articalMapper.map(articalModel,Artical.class));
     }
+
+    @Test
+    public void should_delete_artical_with_aritcal_id(){
+        ArticalModel articalModel = createArticalModel();
+        StudentModel studentModel = createStudentModel();
+        studentDao.save(studentModel);
+        articalModel.setStudent_id(studentModel.getId());
+        articalDao.save(articalModel);
+
+        Long id = articalModel.getId();
+        studentService.deleteArtical(id);
+        articalModel = articalDao.idEquals(id).querySingle();
+
+        assertThat(articalModel).isEqualTo(null);
+    }
+
+    @Test(expected = Exception.class)
+    public void should_exception_not_found_when_artical_not_exist(){
+        studentService.deleteArtical(-1L);
+    }
+
     private StudentModel createStudentModel() {
         StudentModel studentModel = new StudentModel();
         studentModel.setName("nrt");

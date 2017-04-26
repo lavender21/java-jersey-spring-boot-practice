@@ -104,4 +104,13 @@ public class StudentService implements Loggable {
         articalModel = articalDao.update(articalMapper.map(artical,ArticalModel.class));
         return articalMapper.map(articalModel,Artical.class);
     }
+
+    public void deleteArtical(Long id) {
+        ArticalModel articalModel = articalDao.idEquals(id).querySingle();
+        if (articalModel == null){
+            error("not found artical");
+            throw new NotFoundException();
+        }
+        articalDao.remove(articalModel);
+    }
 }

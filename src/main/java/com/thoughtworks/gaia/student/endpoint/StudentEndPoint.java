@@ -120,5 +120,17 @@ public class StudentEndPoint {
         Artical result = studentService.updateArtical(id, artical);
         return Response.ok().entity(result).build();
     }
+
+    @Path("/artical/{aid}")
+    @ApiOperation(value = "delete artical from student")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "delete artical successfully"),
+            @ApiResponse(code = 404, message = "not found")
+    })
+    @DELETE
+    public Response addArtical(@PathParam("aid") Long aid) throws URISyntaxException {
+        studentService.deleteArtical(aid);
+        return Response.noContent().build();
+    }
 }
 
